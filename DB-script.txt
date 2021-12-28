@@ -1,0 +1,45 @@
+--
+-- Structure de la table login
+--
+
+CREATE TABLE login (
+  UID int(11) PRIMARY KEY AUTO_INCREMENT,
+  username varchar(20) DEFAULT NULL,
+  password varchar(16) DEFAULT NULL,
+  usertype varchar(6) DEFAULT NULL,
+  nickName varchar(20) DEFAULT NULL,
+  email varchar(50) DEFAULT NULL
+) ;
+
+--
+-- Déchargement des données de la table login
+--
+
+INSERT INTO login (UID, username, password, usertype, nickName, email) VALUES
+(221, 'abderrahimjk', 'adroot', 'admin', 'Abderrahim Ait bouna', 'bouna.cc@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table users
+--
+
+CREATE TABLE users (
+  userID int(11) PRIMARY KEY AUTO_INCREMENT,
+  firstName varchar(15) NOT NULL,
+  lastName varchar(15) NOT NULL,
+  email varchar(60) NOT NULL
+) ;
+
+--
+-- Déchargement des données de la table users
+--
+
+INSERT INTO users (userID, firstName, lastName, email) VALUES
+(1, 'ahmed', 'ahmadi', 'ahmadi12@gmail.com'),
+(2, 'mehdi', 'majdi', 'majdi32@gmail.com'),
+(3, 'fatin', 'ghali', 'ghali453@gmail.com'),
+(4, 'mohamd', 'ben', 'ben44@gmail.com');
+
+
+
