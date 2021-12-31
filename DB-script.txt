@@ -19,6 +19,28 @@ INSERT INTO login (UID, username, password, usertype, nickName, email) VALUES
 (221, 'abderrahimjk', 'adroot', 'admin', 'Abderrahim Ait bouna', 'bouna.cc@gmail.com');
 
 -- --------------------------------------------------------
+--
+-- Structure de la table materiels
+--
+
+CREATE TABLE materiels(
+  ref int(11) PRIMARY Key AUTO_INCREMENT,
+  name varchar(),
+  image varchar(255),
+  status int(1)
+)
+
+--
+-- Déchargement des données de la table login
+--
+
+INSERT INTO materiels(name,status) VALUES
+('computer',0),
+('printer',0),
+('speakers',0),
+('computerbk',0),
+('physicsbk',0);
+
 
 --
 -- Structure de la table users
@@ -40,6 +62,20 @@ INSERT INTO users (userID, firstName, lastName, email) VALUES
 (2, 'mehdi', 'majdi', 'majdi32@gmail.com'),
 (3, 'fatin', 'ghali', 'ghali453@gmail.com'),
 (4, 'mohamd', 'ben', 'ben44@gmail.com');
+
+--
+-- Déchargement des données de la table emprunts
+--
+
+create Table emprunts(
+    refEmp int PRIMARY KEY AUTO_INCREMENT,
+    codeUser int(11) ,CONSTRAINT fk_user FOREIGN key(codeUser) REFERENCES users(userID),
+    codeMat int ,CONSTRAINT fk_user FOREIGN key(codeMat) REFERENCES materiels(ref),
+    dateEmp varchar(10),
+    dateRturn varchar(10),
+    duration varchar(2)
+ )
+
 
 
 
