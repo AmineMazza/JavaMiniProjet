@@ -261,10 +261,7 @@ public class Emprunt extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this,e.getMessage());
                 
             }
-        }
-        
-       
-        
+        }    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     

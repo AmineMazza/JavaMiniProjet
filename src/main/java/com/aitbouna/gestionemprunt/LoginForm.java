@@ -43,7 +43,6 @@ public class LoginForm extends javax.swing.JFrame {
         img_1_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("jLabel2");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));

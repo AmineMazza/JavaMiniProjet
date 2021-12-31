@@ -72,7 +72,7 @@ create Table emprunts(
     codeUser int(11) ,CONSTRAINT fk_user FOREIGN key(codeUser) REFERENCES users(userID),
     codeMat int ,CONSTRAINT fk_user FOREIGN key(codeMat) REFERENCES materiels(ref),
     dateEmp varchar(10),
-    dateRturn varchar(10),
+    dateReturn varchar(10),
     duration varchar(2)
  )
 
