@@ -54,18 +54,19 @@ public class Dashboard extends javax.swing.JFrame {
          
         
         returnGoupBtn.add(videoProjector2);
-        videoProjector2.setActionCommand("videoProjector2");
+        videoProjector2.setActionCommand("videoProjector");
         returnGoupBtn.add(computer2);
-        computer2.setActionCommand("computer2");
+        computer2.setActionCommand("computer");
         returnGoupBtn.add(microphone2);
-        microphone2.setActionCommand("microphone2");
+        microphone2.setActionCommand("microphone");
         returnGoupBtn.add(printer2);
-        printer2.setActionCommand("printer2");
+        printer2.setActionCommand("printer");
         returnGoupBtn.add(speakers2);
-        speakers2.setActionCommand("speakers2");
+        speakers2.setActionCommand("speakers");
         returnGoupBtn.add(computerbk2);
-        computerbk2.setActionCommand("computerbk2");
+        computerbk2.setActionCommand("computerbk");
         returnGoupBtn.add(physicsbk2);
+        physicsbk2.setActionCommand("physicsbk");
         
     }
     
@@ -914,38 +915,44 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void saveReturnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveReturnBtnActionPerformed
         String matSelected = returnGoupBtn.getSelection().getActionCommand();
-        
+        //msgReturnLbl.setText("1");
         Connection cnn = null;
         PreparedStatement stmt1 = null;
         PreparedStatement stmt2 = null;
         ResultSet rs = null;
+        //msgReturnLbl.setText(returnGoupBtn.getSelection().getActionCommand());
         
         try{
             
             String fName = firstNameTxt.getText();
             String lName = lastNameTxt.getText();
-            
+            //msgReturnLbl.setText("3");
             cnn = MySQLConnection.getConnection();
             String query = "SELECT ref from materiels where name = ?";
             stmt1 = cnn.prepareStatement(query);
-            stmt1.setInt(1, Integer.parseInt(matSelected));
+            //msgReturnLbl.setText("4");
+            stmt1.setString(1, matSelected);
             rs = stmt1.executeQuery();
+            //msgReturnLbl.setText(matSelected);
             if (rs.next()){
+               // msgReturnLbl.setText("6");
                 int ref = rs.getInt("ref");
                 String query2 = "UPDATE materiels SET status=?";
                  stmt2 = cnn.prepareStatement(query2);
                  stmt2.setInt(1, 0);
                  int n = stmt2.executeUpdate();
                  if(n>0){
+                    msgReturnLbl.setForeground(Color.decode("#00CC33"));
                     msgReturnLbl.setText("the return of "+matSelected+" material, by "+fName+" "+lName+" has been recorded on the database");
                  }else{
-                     msgReturnLbl.setText("htere was an Error...!");
+                     msgReturnLbl.setForeground(Color.red);
+                     msgReturnLbl.setText("there was an Error...!");
                  }
             }
             
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
-        } 
+        }
         
     }//GEN-LAST:event_saveReturnBtnActionPerformed
 
