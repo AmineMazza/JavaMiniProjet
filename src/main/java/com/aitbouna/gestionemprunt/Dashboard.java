@@ -423,6 +423,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         lastNameTxt.setBackground(new java.awt.Color(186, 74, 84));
         lastNameTxt.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lastNameTxt.setForeground(new java.awt.Color(255, 255, 255));
         lastNameTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
         userLateBtn.setBackground(new java.awt.Color(186, 74, 84));
@@ -755,23 +756,27 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    ImageIcon getImage() throws Exception{
+    ImageIcon getImage(){
         
             ImageIcon newImg = null;
             String  matName = listMateriels.getSelectedValue();
-            Connection cn = MySQLConnection.getConnection();
-            String query  = "Select image from materiels where name = '"+matName+"'";
-            Statement stmt = cn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            if(rs.next()){
-                byte[] img = rs.getBytes("image");
-                ImageIcon icon = new ImageIcon(img);
-                Image image = icon.getImage();
-                Image myimg = image.getScaledInstance(imageLbl.getWidth(), imageLbl.getHeight(), Image.SCALE_SMOOTH);
-                newImg = new ImageIcon(myimg);
-            }   
-            rs.close();
-            cn.close();
+            try{
+                Connection cn = MySQLConnection.getConnection();
+                String query  = "Select image from materiels where name = '"+matName+"'";
+                Statement stmt = cn.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs.next()){
+                    byte[] img = rs.getBytes("image");
+                    ImageIcon icon = new ImageIcon(img);
+                    Image image = icon.getImage();
+                    Image myimg = image.getScaledInstance(imageLbl.getWidth(), imageLbl.getHeight(), Image.SCALE_SMOOTH);
+                    newImg = new ImageIcon(myimg);
+                }   
+                rs.close();
+                cn.close();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
            return newImg;
     }
     
@@ -982,7 +987,12 @@ public class Dashboard extends javax.swing.JFrame {
             populateJList();
             isReload = false;
         }
+      ImageIcon img = getImage();
+      if(img == null){
         imageLbl.setText("Fail to load image !");
+      }else{
+          imageLbl.setIcon(img);
+      }
       
     }//GEN-LAST:event_listMaterielsMouseClicked
     
