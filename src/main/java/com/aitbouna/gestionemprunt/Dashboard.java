@@ -34,6 +34,7 @@ public class Dashboard extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     private static String matRef;
+    static boolean isReload = false;
     
     public Dashboard() {
         initComponents();
@@ -977,14 +978,12 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void listMaterielsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMaterielsMouseClicked
-       try{
-            imageLbl.setIcon(getImage());
-            if(getImage() == null)
-                imageLbl.setText("Fail to load image !");
-       }catch(Exception e){
-           //JOptionPane.showMessageDialog(this, e.getMessage());
-           imageLbl.setText("Fail to load image !");
-       }
+      if(isReload){
+            populateJList();
+            isReload = false;
+        }
+        imageLbl.setText("Fail to load image !");
+      
     }//GEN-LAST:event_listMaterielsMouseClicked
     
     

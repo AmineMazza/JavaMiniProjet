@@ -4,6 +4,7 @@
  */
 package com.aitbouna.gestionemprunt;
 
+import static com.aitbouna.gestionemprunt.Dashboard.isReload;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -294,6 +295,7 @@ public class AddMateriel extends javax.swing.JFrame {
             }else{
                 uploadLbl.setText("Error to add materiel");
             }
+            isReload = true;
        }catch(Exception e){
            JOptionPane.showMessageDialog(this,e.getMessage());
        }
