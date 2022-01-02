@@ -11,8 +11,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -36,35 +38,41 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         //LoadreturnTable();
-        matGroupBtn.add(videoProjector);
-        videoProjector.setActionCommand("videoProjector");
-        matGroupBtn.add(computer);
-        computer.setActionCommand("computer");
-        matGroupBtn.add(microphone);
-        microphone.setActionCommand("microphone");
-        matGroupBtn.add(printer);
-        printer.setActionCommand("printer");
-        matGroupBtn.add(speakers);
-        speakers.setActionCommand("speakers");
-        matGroupBtn.add(computerbk);
-        computerbk.setActionCommand("computerbk");
-        matGroupBtn.add(physicsbk);
+        populateJList();
         
         userGroupBtn.add(userHistoryBtn);
         userHistoryBtn.setActionCommand("userHistoryBtn");
         userGroupBtn.add(userLateBtn);
         userLateBtn.setActionCommand("userLateBtn");
-        
-        physicsbk.setActionCommand("physicsbk");
-        nickNameTxt.setText(NickName);
-        
-        
+           
+    }
+    
+    public void populateJList(){
+        DefaultListModel model = new DefaultListModel(); //create a new list model
+        String query = "SELECT * FROM materiels";
+        try{
+            Connection connection = MySQLConnection.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query); //run your query
+
+            while (resultSet.next()) //go through each row that your query returns
+            {
+                String itemCode = resultSet.getString("name"); //get the element in column "item_code"
+                model.addElement(itemCode); //add each item to the model
+                
+            }
+            listMateriels.setModel(model);
+
+            resultSet.close();
+            statement.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
     
     
-    
-    String getSelectedRadioBtn(){
-        return matGroupBtn.getSelection().getActionCommand();
+    String getSelectedMat(){
+        return listMateriels.getSelectedValue();
     }
     
     @SuppressWarnings("unchecked")
@@ -79,22 +87,17 @@ public class Dashboard extends javax.swing.JFrame {
         mainPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        videoProjector = new javax.swing.JRadioButton();
-        computer = new javax.swing.JRadioButton();
-        microphone = new javax.swing.JRadioButton();
         headerPanel = new javax.swing.JPanel();
         cancelBtn = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         nickNameTxt = new javax.swing.JLabel();
-        printer = new javax.swing.JRadioButton();
-        speakers = new javax.swing.JRadioButton();
-        computerbk = new javax.swing.JRadioButton();
-        physicsbk = new javax.swing.JRadioButton();
         imageLbl = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         searchAvailabilityBtn = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listMateriels = new javax.swing.JList<>();
         jPanel5 = new javax.swing.JPanel();
         searchResultLbl = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -150,36 +153,6 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("select the material concerned :");
 
-        videoProjector.setBackground(new java.awt.Color(186, 74, 84));
-        videoProjector.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        videoProjector.setForeground(new java.awt.Color(255, 255, 255));
-        videoProjector.setText("videoProjector");
-        videoProjector.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                videoProjectorActionPerformed(evt);
-            }
-        });
-
-        computer.setBackground(new java.awt.Color(186, 74, 84));
-        computer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        computer.setForeground(new java.awt.Color(255, 255, 255));
-        computer.setText("Computer");
-        computer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                computerActionPerformed(evt);
-            }
-        });
-
-        microphone.setBackground(new java.awt.Color(186, 74, 84));
-        microphone.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        microphone.setForeground(new java.awt.Color(255, 255, 255));
-        microphone.setText("Microphone");
-        microphone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                microphoneActionPerformed(evt);
-            }
-        });
-
         headerPanel.setBackground(new java.awt.Color(74, 31, 78));
 
         cancelBtn.setBackground(new java.awt.Color(204, 204, 204));
@@ -230,46 +203,6 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        printer.setBackground(new java.awt.Color(186, 74, 84));
-        printer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        printer.setForeground(new java.awt.Color(255, 255, 255));
-        printer.setText("Printer");
-        printer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printerActionPerformed(evt);
-            }
-        });
-
-        speakers.setBackground(new java.awt.Color(186, 74, 84));
-        speakers.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        speakers.setForeground(new java.awt.Color(255, 255, 255));
-        speakers.setText("Speakers");
-        speakers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                speakersActionPerformed(evt);
-            }
-        });
-
-        computerbk.setBackground(new java.awt.Color(186, 74, 84));
-        computerbk.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        computerbk.setForeground(new java.awt.Color(255, 255, 255));
-        computerbk.setText("Computer book");
-        computerbk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                computerbkActionPerformed(evt);
-            }
-        });
-
-        physicsbk.setBackground(new java.awt.Color(186, 74, 84));
-        physicsbk.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        physicsbk.setForeground(new java.awt.Color(255, 255, 255));
-        physicsbk.setText("Physics book");
-        physicsbk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                physicsbkActionPerformed(evt);
-            }
-        });
-
         imageLbl.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         imageLbl.setForeground(new java.awt.Color(255, 0, 51));
         imageLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -292,7 +225,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(searchAvailabilityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(searchAvailabilityBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,6 +257,20 @@ public class Dashboard extends javax.swing.JFrame {
             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
+        jScrollPane3.setForeground(new java.awt.Color(255, 255, 255));
+
+        listMateriels.setBackground(new java.awt.Color(186, 74, 84));
+        listMateriels.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        listMateriels.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listMateriels.setForeground(new java.awt.Color(255, 255, 255));
+        listMateriels.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listMateriels.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listMaterielsMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(listMateriels);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -333,21 +280,14 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(28, 28, 28))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
+                        .addGap(112, 112, 112)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(videoProjector, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                                    .addComponent(computer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(microphone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(printer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(speakers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(computerbk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(physicsbk, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(28, 28, 28)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -358,28 +298,16 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(videoProjector)
-                        .addGap(0, 0, 0)
-                        .addComponent(computer)
-                        .addGap(0, 0, 0)
-                        .addComponent(microphone)
-                        .addGap(0, 0, 0)
-                        .addComponent(printer)
-                        .addGap(0, 0, 0)
-                        .addComponent(speakers)
-                        .addGap(0, 0, 0)
-                        .addComponent(computerbk)
-                        .addGap(0, 0, 0)
-                        .addComponent(physicsbk)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 29, Short.MAX_VALUE))
         );
@@ -826,9 +754,10 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    ImageIcon getImage(String  matName) throws Exception{
+    ImageIcon getImage() throws Exception{
         
             ImageIcon newImg = null;
+            String  matName = listMateriels.getSelectedValue();
             Connection cn = MySQLConnection.getConnection();
             String query  = "Select image from materiels where name = '"+matName+"'";
             Statement stmt = cn.createStatement();
@@ -845,19 +774,6 @@ public class Dashboard extends javax.swing.JFrame {
            return newImg;
     }
     
-    private void videoProjectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_videoProjectorActionPerformed
-        
-        imageLbl.setIcon(null);
-        ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-
-        }
-    }//GEN-LAST:event_videoProjectorActionPerformed
-
     private void searchAvailabilityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAvailabilityBtnActionPerformed
        
         searchResultLbl.setText("");
@@ -866,7 +782,7 @@ public class Dashboard extends javax.swing.JFrame {
         ResultSet rs = null;
         try{
             cnn = MySQLConnection.getConnection();
-            String matName = matGroupBtn.getSelection().getActionCommand();
+            String matName = getSelectedMat();
             String query = "SELECT ref,status FROM materiels WHERE Name=?";
             
             pstmt1 = cnn.prepareStatement(query);
@@ -882,71 +798,12 @@ public class Dashboard extends javax.swing.JFrame {
             }else{
                 searchResultLbl.setText("Sorry the "+matName+" is not availabale...!");
             }
-            
+            rs.close();
+            cnn.close();
         }catch(Exception e){
              JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_searchAvailabilityBtnActionPerformed
-
-    private void speakersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speakersActionPerformed
-        imageLbl.setIcon(null);
-        ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-        }
-    }//GEN-LAST:event_speakersActionPerformed
-
-    private void printerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printerActionPerformed
-       imageLbl.setIcon(null);
-        ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-
-        }
-    }//GEN-LAST:event_printerActionPerformed
-
-    private void computerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computerActionPerformed
-        imageLbl.setIcon(null);
-        ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-
-        }
-        
-    }//GEN-LAST:event_computerActionPerformed
-
-    private void computerbkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computerbkActionPerformed
-       imageLbl.setIcon(null);
-       ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-
-        }
-    }//GEN-LAST:event_computerbkActionPerformed
-
-    private void physicsbkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_physicsbkActionPerformed
-        imageLbl.setIcon(null);
-        ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-
-        }
-    }//GEN-LAST:event_physicsbkActionPerformed
 
     private void cancelBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBtnMouseClicked
         new LoginForm().setVisible(true);
@@ -1046,18 +903,6 @@ public class Dashboard extends javax.swing.JFrame {
        
     }//GEN-LAST:event_SubmitActionPerformed
 
-    private void microphoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_microphoneActionPerformed
-        imageLbl.setIcon(null);
-        ImageIcon image;
-        try {
-            image = getImage(matGroupBtn.getSelection().getActionCommand());
-            imageLbl.setIcon(image);
-        } catch (Exception ex) {
-            imageLbl.setText("Fail to load image !");
-
-        }
-    }//GEN-LAST:event_microphoneActionPerformed
-
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         Connection cnn = null;
         PreparedStatement stmt = null;     
@@ -1130,6 +975,17 @@ public class Dashboard extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new AddMateriel().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void listMaterielsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMaterielsMouseClicked
+       try{
+            imageLbl.setIcon(getImage());
+            if(getImage() == null)
+                imageLbl.setText("Fail to load image !");
+       }catch(Exception e){
+           //JOptionPane.showMessageDialog(this, e.getMessage());
+           imageLbl.setText("Fail to load image !");
+       }
+    }//GEN-LAST:event_listMaterielsMouseClicked
     
     
     void search(String str){
@@ -1186,8 +1042,6 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Submit;
     private javax.swing.JLabel cancelBtn;
-    private javax.swing.JRadioButton computer;
-    private javax.swing.JRadioButton computerbk;
     private javax.swing.JLabel confirmMsgLbl;
     private javax.swing.JTextField firstNameTxt;
     private javax.swing.JPanel headerPanel;
@@ -1216,18 +1070,17 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel labelsr;
     private javax.swing.JTextField lastNameTxt;
+    private javax.swing.JList<String> listMateriels;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel mainPanel1;
     private javax.swing.JPanel mainPanel2;
     private javax.swing.JPanel mainPanel3;
     private javax.swing.ButtonGroup matGroupBtn;
-    private javax.swing.JRadioButton microphone;
     private javax.swing.JLabel nickNameTxt;
-    private javax.swing.JRadioButton physicsbk;
-    private javax.swing.JRadioButton printer;
     private javax.swing.JTable resultTable;
     private javax.swing.ButtonGroup returnGoupBtn;
     private javax.swing.JTable returnTable;
@@ -1235,11 +1088,9 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchInput;
     private javax.swing.JLabel searchResultLbl;
-    private javax.swing.JRadioButton speakers;
     private javax.swing.ButtonGroup userGroupBtn;
     private javax.swing.JRadioButton userHistoryBtn;
     private javax.swing.JPanel userInfoResultPanel;
     private javax.swing.JRadioButton userLateBtn;
-    private javax.swing.JRadioButton videoProjector;
     // End of variables declaration//GEN-END:variables
 }
