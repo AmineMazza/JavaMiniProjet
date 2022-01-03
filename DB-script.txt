@@ -1,3 +1,7 @@
+CREATE DATABASE fssmproject;
+
+use fssmproject;
+
 --
 -- Structure de la table login
 --
@@ -16,7 +20,7 @@ CREATE TABLE login (
 --
 
 INSERT INTO login (UID, username, password, usertype, nickName, email) VALUES
-(221, 'abderrahimjk', 'adroot', 'admin', 'Abderrahim Ait bouna', 'bouna.cc@gmail.com');
+(221, 'admin', 'root', 'admin', 'gestionnaire', 'admin@uca.ma');
 
 -- --------------------------------------------------------
 --
@@ -29,18 +33,6 @@ CREATE TABLE materiels(
   image varchar(255),
   status int(1)
 )
-
---
--- Déchargement des données de la table login
---
-
-INSERT INTO materiels(name,status) VALUES
-('computer',0),
-('printer',0),
-('speakers',0),
-('computerbk',0),
-('physicsbk',0);
-
 
 --
 -- Structure de la table users
