@@ -19,8 +19,8 @@ CREATE TABLE login (
 -- Déchargement des données de la table login
 --
 
-INSERT INTO login (UID, username, password, usertype, nickName, email) VALUES
-(221, 'admin', 'root', 'admin', 'gestionnaire', 'admin@uca.ma');
+INSERT INTO login (username, password, usertype, nickName, email) VALUES
+('admin', 'root', 'admin', 'gestionnaire', 'admin@uca.ma');
 
 -- --------------------------------------------------------
 --
